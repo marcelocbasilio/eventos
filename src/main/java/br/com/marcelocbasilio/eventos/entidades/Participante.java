@@ -2,7 +2,9 @@ package br.com.marcelocbasilio.eventos.entidades;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_participante")
@@ -14,6 +16,10 @@ public class Participante {
     private String nome;
     @Column(unique = true)
     private String email;
+
+    @ManyToMany
+    @JoinTable(name = "tb_participante_atividade", joinColumns = @JoinColumn(name = "participante_id"), inverseJoinColumns = @JoinColumn(name = "atividade_id"))
+    private Set<Atividade> atividades = new HashSet<>();
 
     public Participante() {
     }
@@ -47,6 +53,8 @@ public class Participante {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public Set<Atividade> getAtividades() { return atividades; }
 
     @Override
     public boolean equals(Object o) {
